@@ -1,0 +1,30 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - ./archivosproyecto:/home/${STUDENT_NAME}-${STUDENT_ID}/archivosproyecto
+    networks:
+      - webnet
+
+  db:
+    image: mysql:latest  # Puedes cambiar a mongo:latest si prefieres MongoDB
+    ports:
+      - "3306:3306"  # Cambia a "27017:27017" si usas MongoDB
+    environment:
+      MYSQL_ROOT_PASSWORD: example  # Cambia esto por una contraseña segura
+      MYSQL_DATABASE: exampledb  # Cambia esto por el nombre de tu base de datos
+      MYSQL_USER: user  # Cambia esto por el nombre de tu usuario de base de datos
+      MYSQL_PASSWORD: password  # Cambia esto por la contraseña de tu usuario
+    volumes:
+      - db_data:/var/lib/mysql  # Cambia a /data/db si usas MongoDB
+    networks:
+      - webnet
+
+volumes:
+  db_data:
+
+networks:
+  webnet:
